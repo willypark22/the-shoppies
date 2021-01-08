@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+* {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+input {
+  width: 20%;
+  height: auto;
+}
+
+input[type=text] {
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-size: 15px;
+  background-image: url('https://image.flaticon.com/icons/svg/2089/2089805.svg');
+  background-size: 25px;
+  background-color: #ffffff;
+  background-position: 8px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+}
+
+.movie-search-container {
+  text-align: center
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>The Shoppies: Movie Awards for Entrepreneurs</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="shoppie-header">
+      <h1>The Shoppie: Movie Nominations</h1>
+    </div>
+    <div class="movie-search-container">
+      <!-- <input type="text" placeholder="Search movie..." onkeyup="getMovie(document.getElementById('queryBox'))" id="queryBox"> -->
+    </div>
+    <div class="">
+
+    </div>
+
+    <script type="text/javascript">
+      var movie = "Star Wars";
+
+      function getMovie(movie) {
+        $.getJSON("https://www.omdbapi.com/?s=" + movie + "&apikey=5986669d").then(function(response) {
+          // console.log(response);
+          var rawString = JSON.stringify(response);
+          data = JSON.parse(rawString);
+          var movieArray = data.Search;
+          var resultArray = [];
+          var title;
+          var year;
+
+          for(var i = 0; i < movieArray.length; i++) {
+            title = movieArray[i].Title;
+            year = movieArray[i].Year;
+            resultArray[i] = year + " " + title;
+          }
+          console.log(resultArray);
+        });
+      }
+
+      getMovie(movie);
+    </script>
+  </body>
+</html>

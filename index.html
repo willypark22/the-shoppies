@@ -13,8 +13,7 @@
     <div class="movie-search-container">
       <!-- <input type="text" placeholder="Search movie..." onkeyup="getMovie(document.getElementById('queryBox'))" id="queryBox"> -->
     </div>
-    <div class="">
-
+    <div id="movieResults">
     </div>
 
     <script type="text/javascript">
@@ -22,7 +21,6 @@
 
       function getMovie(movie) {
         $.getJSON("https://www.omdbapi.com/?s=" + movie + "&apikey=5986669d").then(function(response) {
-          // console.log(response);
           var rawString = JSON.stringify(response);
           data = JSON.parse(rawString);
           var movieArray = data.Search;
@@ -36,6 +34,8 @@
             resultArray[i] = year + " " + title;
           }
           console.log(resultArray);
+
+          document.getElementById("movieResults").innerHTML = resultArray;
         });
       }
 

@@ -11,14 +11,12 @@
       <h1>The Shoppie: Movie Nominations</h1>
     </div>
     <div class="movie-search-container">
-      <!-- <input type="text" placeholder="Search movie..." onkeyup="getMovie(document.getElementById('queryBox'))" id="queryBox"> -->
+      <input type="text" placeholder="Search movie..." onkeyup="getMovie(document.getElementById('queryBox').value)" id="queryBox">
     </div>
     <div id="movieResults">
     </div>
 
     <script type="text/javascript">
-      var movie = "Star Wars";
-
       function getMovie(movie) {
         $.getJSON("https://www.omdbapi.com/?s=" + movie + "&apikey=5986669d").then(function(response) {
           var rawString = JSON.stringify(response);
@@ -38,8 +36,6 @@
           document.getElementById("movieResults").innerHTML = resultArray;
         });
       }
-
-      getMovie(movie);
     </script>
   </body>
 </html>

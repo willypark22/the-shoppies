@@ -5,35 +5,67 @@
     <title>The Shoppies: Movie Awards for Entrepreneurs</title>
     <link rel="stylesheet" href="index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/45d9280b50.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="shoppie-header">
-      <h1>The Shoppie: Movie Nominations</h1>
+      <i class="fas fa-ticket-alt fa-4x" id="ticket-icon"></i>
+      <span>Shoppie</span>
     </div>
     <div class="movie-search-container">
+      <h2>Nominate a Movie</h2>
       <input type="text" placeholder="Search movie..." onkeyup="getMovie(document.getElementById('queryBox').value)" id="queryBox">
     </div>
-    <div id="movieResults">
+    <div class="movie-result-row">
+      <div class="movie-result-column-50">
+        <h2>Movie Suggestions</h2>
+        <div id="movieResults">
+        </div>
+      </div>
+      <div class="movie-result-column-50">
+        <h2>Your Nominations</h2>
+        <div id="movieNominations">
+        </div>
+      </div>
     </div>
 
     <script type="text/javascript">
+      function makeUL(movieArray) {
+        var movieList = document.createElement('ul');
+
+        for(var i = 0; i < movieArray.length; i++) {
+          var movieItem = document.createElement('span');
+          var movieButton = document.createElement('span');
+          movieItem.innerHTML = '<li id="' + i + '">' + movieArray[i] + '<button onclick="">Nominate</button></li>';
+          movieList.appendChild(movieItem);
+        }
+
+        return movieList;
+      }
+
       function getMovie(movie) {
         $.getJSON("https://www.omdbapi.com/?s=" + movie + "&apikey=5986669d").then(function(response) {
           var rawString = JSON.stringify(response);
           data = JSON.parse(rawString);
           var movieArray = data.Search;
           var resultArray = [];
+          var posterArray = [];
           var title;
           var year;
+          var myMovie = document.getElementById("movieResults");
+
+          myMovie.innerHTML = '';
 
           for(var i = 0; i < movieArray.length; i++) {
             title = movieArray[i].Title;
             year = movieArray[i].Year;
-            resultArray[i] = year + " " + title;
+            poster = movieArray[i].Poster;
+            resultArray[i] = title + " - (" + year + ")";
+            posterArray[i] = poster;
           }
-          console.log(resultArray);
 
-          document.getElementById("movieResults").innerHTML = resultArray;
+          myMovie.appendChild(makeUL(resultArray));
+
         });
       }
     </script>

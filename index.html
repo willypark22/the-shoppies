@@ -30,13 +30,24 @@
     </div>
 
     <script type="text/javascript">
+      var counter = 0;
+      function myFunction(num) {
+        console.log(num);
+        var nominationSection = document.getElementById("movieNominations");
+        var nominationList = document.createElement('ul');
+
+        console.log(document.getElementById(num));
+        nominationList.appendChild(document.getElementById(num));
+        nominationSection.appendChild(nominationList);
+      }
+
       function makeUL(movieArray) {
         var movieList = document.createElement('ul');
 
         for(var i = 0; i < movieArray.length; i++) {
           var movieItem = document.createElement('span');
           var movieButton = document.createElement('span');
-          movieItem.innerHTML = '<li id="' + i + '">' + movieArray[i] + '<button onclick="">Nominate</button></li>';
+          movieItem.innerHTML = '<li id="' + i + '">' + movieArray[i] + '<button onclick="myFunction(' + i + ')">Nominate</button></li>';
           movieList.appendChild(movieItem);
         }
 
@@ -65,7 +76,6 @@
           }
 
           myMovie.appendChild(makeUL(resultArray));
-
         });
       }
     </script>

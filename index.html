@@ -31,14 +31,36 @@
 
     <script type="text/javascript">
       var counter = 0;
-      function myFunction(num) {
-        console.log(num);
-        var nominationSection = document.getElementById("movieNominations");
-        var nominationList = document.createElement('ul');
 
-        console.log(document.getElementById(num));
-        nominationList.appendChild(document.getElementById(num));
-        nominationSection.appendChild(nominationList);
+      function removeFunction(removeNum) {
+        var removeList = document.getElementById(removeNum);
+
+        removeList.remove();
+        counter--;
+      }
+
+      function nominationFunction(num) {
+        if(counter != 5) {
+          var nominationSection = document.getElementById("movieNominations");
+          var nominationList = document.createElement('ul');
+          var movieNum = document.getElementById(num);
+          var movieClone = movieNum.cloneNode(true);
+          var buttonClone = document.getElementById("mybtn" + num);
+          var liClone = document.getElementById(num);
+
+          buttonClone.id = "mybtn" + num + "1";
+          liClone.id = num + "1";
+
+          nominationList.appendChild(movieClone);
+          nominationSection.appendChild(nominationList);
+          document.getElementById("mybtn" + num + "1").disabled = true;
+          document.getElementById("mybtn" + num).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
+          document.getElementById("mybtn" + num).innerText = 'Remove';
+          counter++;
+        }
+        else {
+          console.log("Already have 5 nominations.");
+        }
       }
 
       function makeUL(movieArray) {
@@ -47,7 +69,7 @@
         for(var i = 0; i < movieArray.length; i++) {
           var movieItem = document.createElement('span');
           var movieButton = document.createElement('span');
-          movieItem.innerHTML = '<li id="' + i + '">' + movieArray[i] + '<button onclick="myFunction(' + i + ')">Nominate</button></li>';
+          movieItem.innerHTML = '<li id="' + i + '">' + movieArray[i] + '<button id="mybtn' + i + '" onclick="nominationFunction(' + i + ')">Nominate</button></li>';
           movieList.appendChild(movieItem);
         }
 

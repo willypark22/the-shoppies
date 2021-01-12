@@ -26,6 +26,10 @@ ul {
   /* list-style: none; */
 }
 
+button {
+  text-align: right;
+}
+
 #ticket-icon,
 #ticket-icon ~ span {
   display: inline-block;

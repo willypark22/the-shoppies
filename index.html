@@ -19,23 +19,43 @@
     <div class="movie-result-row">
       <div class="movie-result-column-50">
         <h2>Movie Suggestions</h2>
-        <!-- <div id="movieResults"> -->
           <ul id="searchList">
           </ul>
-        <!-- </div> -->
       </div>
       <div class="movie-result-column-50">
         <h2>Your Nominations</h2>
-        <!-- <div id="movieNominations"> -->
           <ul id="nominationList">
           </ul>
-        <!-- </div> -->
+      </div>
+    </div>
+
+    <div id="myBanner" class="nomination-banner">
+      <div class="banner-content">
+        <div class="banner-header">
+          <span class="banner-close">&times;</span>
+          <h2>You have nominated 5 films!</h2>
+        </div>
+        <div class="banner-body">
+          <h2>You can now view.</h2>
+        </div>
       </div>
     </div>
 
     <script type="text/javascript">
 
     var counter = 0;
+    var nominationBanner = document.getElementById("myBanner");
+    var closeSpan = document.getElementsByClassName("banner-close")[0];
+
+    closeSpan.onclick = function () {
+      nominationBanner.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if(event.target == nominationBanner) {
+        nominationBanner.style.display = "none";
+      }
+    }
 
     function removeFunction(removeNum) {
       var x = event.target.parentElement.getAttribute('id');
@@ -48,8 +68,6 @@
       }
       else {
         document.getElementById("mybtn" + removeNum + "1").disabled = false;
-        // document.getElementById("mybtn" + removeNum).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
-        // document.getElementById("mybtn" + removeNum).innerText = 'Remove';
         removeList.remove();
         document.getElementById("mybtn" + removeNum + "1").id = "mybtn" + removeNum;
         document.getElementById(removeNum + "1").id = removeNum;
@@ -59,6 +77,10 @@
 
     function nominationFunction(num) {
       if(counter != 5) {
+        counter++;
+        if(counter == 5) {
+          nominationBanner.style.display = "block";
+        }
         var nominationSection = document.getElementById("nominationList");
         var movieNum = document.getElementById(num);
         var movieClone = movieNum.cloneNode(true);
@@ -70,16 +92,14 @@
 
         movieClone.id = counter + "nomination";
 
-        // nominationList.appendChild(movieClone);
         nominationSection.appendChild(movieClone);
         document.getElementById("mybtn" + num + "1").disabled = true;
         document.getElementById("mybtn" + num).id = "nomButton" + counter;
         document.getElementById("nomButton" + counter).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
         document.getElementById("nomButton" + counter).innerText = 'Remove';
-        counter++;
       }
       else {
-        console.log("Already have 5 nominations.");
+        nominationBanner.style.display = "block";
       }
     }
 

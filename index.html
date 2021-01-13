@@ -20,86 +20,172 @@
       <div class="movie-result-column-50">
         <h2>Movie Suggestions</h2>
         <div id="movieResults">
+          <ul id="searchList">
+          </ul>
         </div>
       </div>
       <div class="movie-result-column-50">
         <h2>Your Nominations</h2>
         <div id="movieNominations">
+          <ul id="nominationList">
+          </ul>
         </div>
       </div>
     </div>
 
     <script type="text/javascript">
-      var counter = 0;
+    var counter = 0;
 
-      function removeFunction(removeNum) {
-        var removeList = document.getElementById(removeNum);
+    function removeFunction(removeNum) {
+      var removeList = document.getElementById(removeNum);
 
-        removeList.remove();
-        counter--;
+      document.getElementById("mybtn" + removeNum + "1").disabled = false;
+      // document.getElementById("mybtn" + removeNum).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
+      // document.getElementById("mybtn" + removeNum).innerText = 'Remove';
+      removeList.remove();
+      document.getElementById("mybtn" + removeNum + "1").id = "mybtn" + removeNum;
+      document.getElementById(removeNum + "1").id = removeNum;
+      counter--;
+    }
+
+    function nominationFunction(num) {
+      if(counter != 5) {
+        var nominationSection = document.getElementById("movieNominations");
+        var nominationList = document.createElement('ul');
+        console.log(num);
+        var movieNum = document.getElementById(num);
+        console.log(movieNum);
+        var movieClone = movieNum.cloneNode(true);
+        var buttonClone = document.getElementById("mybtn" + num);
+        var liClone = document.getElementById(num);
+
+        buttonClone.id = "mybtn" + num + "1";
+        liClone.id = num + "1";
+
+        nominationList.appendChild(movieClone);
+        nominationSection.appendChild(nominationList);
+        document.getElementById("mybtn" + num + "1").disabled = true;
+        document.getElementById("mybtn" + num).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
+        document.getElementById("mybtn" + num).innerText = 'Remove';
+        counter++;
+      }
+      else {
+        console.log("Already have 5 nominations.");
+      }
+    }
+
+    function makeUL(movieArray) {
+      var movieList = document.createElement('ul');
+
+      for(var i = 0; i < movieArray.length; i++) {
+        var movieItem = document.createElement('span');
+        var movieButton = document.createElement('span');
+        movieItem.innerHTML = '<li id="' + i + '">' + movieArray[i] + '<button id="mybtn' + i + '" onclick="nominationFunction(' + i + ')">Nominate</button></li>';
+        movieList.appendChild(movieItem);
       }
 
-      function nominationFunction(num) {
-        if(counter != 5) {
-          var nominationSection = document.getElementById("movieNominations");
-          var nominationList = document.createElement('ul');
-          var movieNum = document.getElementById(num);
-          var movieClone = movieNum.cloneNode(true);
-          var buttonClone = document.getElementById("mybtn" + num);
-          var liClone = document.getElementById(num);
+      return movieList;
+    }
 
-          buttonClone.id = "mybtn" + num + "1";
-          liClone.id = num + "1";
+    function getMovie(movie) {
+      $.getJSON("https://www.omdbapi.com/?s=" + movie + "&apikey=5986669d").then(function(response) {
+        var rawString = JSON.stringify(response);
+        data = JSON.parse(rawString);
+        var movieArray = data.Search;
+        var resultArray = [];
+        var posterArray = [];
+        var title;
+        var year;
+        var myMovie = document.getElementById("movieResults");
 
-          nominationList.appendChild(movieClone);
-          nominationSection.appendChild(nominationList);
-          document.getElementById("mybtn" + num + "1").disabled = true;
-          document.getElementById("mybtn" + num).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
-          document.getElementById("mybtn" + num).innerText = 'Remove';
-          counter++;
-        }
-        else {
-          console.log("Already have 5 nominations.");
-        }
-      }
-
-      function makeUL(movieArray) {
-        var movieList = document.createElement('ul');
+        myMovie.innerHTML = '';
 
         for(var i = 0; i < movieArray.length; i++) {
-          var movieItem = document.createElement('span');
-          var movieButton = document.createElement('span');
-          movieItem.innerHTML = '<li id="' + i + '">' + movieArray[i] + '<button id="mybtn' + i + '" onclick="nominationFunction(' + i + ')">Nominate</button></li>';
-          movieList.appendChild(movieItem);
+          title = movieArray[i].Title;
+          year = movieArray[i].Year;
+          poster = movieArray[i].Poster;
+          resultArray[i] = title + " - (" + year + ")";
+          posterArray[i] = poster;
         }
 
-        return movieList;
-      }
+        myMovie.appendChild(makeUL(resultArray));
+      });
+    }
 
-      function getMovie(movie) {
-        $.getJSON("https://www.omdbapi.com/?s=" + movie + "&apikey=5986669d").then(function(response) {
-          var rawString = JSON.stringify(response);
-          data = JSON.parse(rawString);
-          var movieArray = data.Search;
-          var resultArray = [];
-          var posterArray = [];
-          var title;
-          var year;
-          var myMovie = document.getElementById("movieResults");
-
-          myMovie.innerHTML = '';
-
-          for(var i = 0; i < movieArray.length; i++) {
-            title = movieArray[i].Title;
-            year = movieArray[i].Year;
-            poster = movieArray[i].Poster;
-            resultArray[i] = title + " - (" + year + ")";
-            posterArray[i] = poster;
-          }
-
-          myMovie.appendChild(makeUL(resultArray));
-        });
-      }
+      // function getMovie(movie) {
+      //   var removeCounter = 0;
+      //
+      //   $.getJSON("https://www.omdbapi.com/?s=" + movie + "&apikey=5986669d").then(function(response) {
+      //     var rawString = JSON.stringify(response);
+      //     data = JSON.parse(rawString);
+      //     var movieArray = data.Search;
+      //     var resultArray = [];
+      //     var posterArray = [];
+      //     var title;
+      //     var year;
+      //     var myMovie = document.getElementById("searchList");
+      //
+      //     myMovie.innerHTML = '';
+      //
+      //     for(var i = 0; i < movieArray.length; i++) {
+      //       title = movieArray[i].Title;
+      //       year = movieArray[i].Year;
+      //       poster = movieArray[i].Poster;
+      //       resultArray[i] = title + " - (" + year + ")";
+      //       posterArray[i] = poster;
+      //     }
+      //
+      //     if(removeCounter != 5) {
+      //       for(var i = 0; i < resultArray.length; i++) {
+      //         var movieItem = document.createElement('LI');
+      //         var movieInput = resultArray[i];
+      //         var movieText = document.createTextNode(movieInput);
+      //
+      //         movieItem.appendChild(movieText);
+      //         document.getElementById("searchList").appendChild(movieItem);
+      //       }
+      //
+      //       var myNodelist = document.getElementById("searchList").getElementsByTagName("LI");
+      //       for (var i = 0; i < myNodelist.length; i++) {
+      //         var span = document.createElement("SPAN");
+      //         var txt = document.createTextNode("Nominate");
+      //         span.className = "close";
+      //         span.appendChild(txt);
+      //         myNodelist[i].appendChild(span);
+      //       }
+      //
+      //       var nominateMovie = document.getElementsByClassName("close");
+      //       var removeMovie = document.getElementsByClassName("remove");
+      //
+      //       var nominateMovie = document.getElementsByClassName("close");
+      //       for(var i = 0; i < nominateMovie.length; i++) {
+      //         nominateMovie[i].onclick = function() {
+      //           var nominateItem = document.createElement('LI');
+      //           var nominateValue = this.parentElement;
+      //           this.innerText = "Remove";
+      //           document.getElementById("nominationList").append(nominateValue);
+      //           this.className = "remove";
+      //           removeCounter++;
+      //           console.log(removeCounter);
+      //
+      //           var removeMovie = document.getElementsByClassName("remove");
+      //           for(var i = 0; i < removeMovie.length; i++) {
+      //             removeMovie[i].onclick = function() {
+      //               var removeElement = this.parentElement;
+      //               removeElement.style.display = "none";
+      //               this.className = "close";
+      //               this.innerText = "Nominate";
+      //               removeCounter--;
+      //             }
+      //           }
+      //         }
+      //       }
+      //     }
+      //     else {
+      //       console.log("made 5");
+      //     }
+      //   });
+      // }
     </script>
   </body>
 </html>

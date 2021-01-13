@@ -19,42 +19,48 @@
     <div class="movie-result-row">
       <div class="movie-result-column-50">
         <h2>Movie Suggestions</h2>
-        <div id="movieResults">
+        <!-- <div id="movieResults"> -->
           <ul id="searchList">
           </ul>
-        </div>
+        <!-- </div> -->
       </div>
       <div class="movie-result-column-50">
         <h2>Your Nominations</h2>
-        <div id="movieNominations">
+        <!-- <div id="movieNominations"> -->
           <ul id="nominationList">
           </ul>
-        </div>
+        <!-- </div> -->
       </div>
     </div>
 
     <script type="text/javascript">
+
     var counter = 0;
 
     function removeFunction(removeNum) {
-      var removeList = document.getElementById(removeNum);
+      var x = event.target.parentElement.getAttribute('id');
+      console.log(x);
+      var removeList = document.getElementById(x);
 
-      document.getElementById("mybtn" + removeNum + "1").disabled = false;
-      // document.getElementById("mybtn" + removeNum).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
-      // document.getElementById("mybtn" + removeNum).innerText = 'Remove';
-      removeList.remove();
-      document.getElementById("mybtn" + removeNum + "1").id = "mybtn" + removeNum;
-      document.getElementById(removeNum + "1").id = removeNum;
-      counter--;
+      if(document.getElementById("mybtn" + removeNum + "1") === null) {
+        removeList.remove();
+        counter--;
+      }
+      else {
+        document.getElementById("mybtn" + removeNum + "1").disabled = false;
+        // document.getElementById("mybtn" + removeNum).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
+        // document.getElementById("mybtn" + removeNum).innerText = 'Remove';
+        removeList.remove();
+        document.getElementById("mybtn" + removeNum + "1").id = "mybtn" + removeNum;
+        document.getElementById(removeNum + "1").id = removeNum;
+        counter--;
+      }
     }
 
     function nominationFunction(num) {
       if(counter != 5) {
-        var nominationSection = document.getElementById("movieNominations");
-        var nominationList = document.createElement('ul');
-        console.log(num);
+        var nominationSection = document.getElementById("nominationList");
         var movieNum = document.getElementById(num);
-        console.log(movieNum);
         var movieClone = movieNum.cloneNode(true);
         var buttonClone = document.getElementById("mybtn" + num);
         var liClone = document.getElementById(num);
@@ -62,11 +68,14 @@
         buttonClone.id = "mybtn" + num + "1";
         liClone.id = num + "1";
 
-        nominationList.appendChild(movieClone);
-        nominationSection.appendChild(nominationList);
+        movieClone.id = counter + "nomination";
+
+        // nominationList.appendChild(movieClone);
+        nominationSection.appendChild(movieClone);
         document.getElementById("mybtn" + num + "1").disabled = true;
-        document.getElementById("mybtn" + num).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
-        document.getElementById("mybtn" + num).innerText = 'Remove';
+        document.getElementById("mybtn" + num).id = "nomButton" + counter;
+        document.getElementById("nomButton" + counter).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
+        document.getElementById("nomButton" + counter).innerText = 'Remove';
         counter++;
       }
       else {
@@ -75,7 +84,7 @@
     }
 
     function makeUL(movieArray) {
-      var movieList = document.createElement('ul');
+      var movieList = document.getElementById('searchList');
 
       for(var i = 0; i < movieArray.length; i++) {
         var movieItem = document.createElement('span');
@@ -96,7 +105,7 @@
         var posterArray = [];
         var title;
         var year;
-        var myMovie = document.getElementById("movieResults");
+        var myMovie = document.getElementById("searchList");
 
         myMovie.innerHTML = '';
 

@@ -12,6 +12,7 @@ body {
 input {
   width: 20%;
   height: auto;
+  margin-top: 20px;
 }
 
 input[type=text] {
@@ -26,10 +27,11 @@ input[type=text] {
   padding: 12px 20px 12px 40px;
   -webkit-transition: width 0.4s ease-in-out;
   transition: width 0.4s ease-in-out;
+  width: 50%;
 }
 
 input[type=text]:focus {
-  width: 50%;
+  width: 100%;
 }
 
 #ticket-icon,
@@ -57,14 +59,14 @@ input[type=text]:focus {
   padding: 20px 0;
 }
 
+.movie-search-container p {
+  color: #ffffff;
+  padding: 1px 0;
+}
+
 .movie-result-row {
   display: flex;
   flex-wrap: nowrap;
-  /* margin: 0 10%;
-  padding: 0 3%;
-  padding-bottom: 20px;
-  background-color: rgba(18, 18, 18, 1);
-  border-radius: 20px; */
 }
 
 .movie-result-column-50 {
@@ -150,32 +152,8 @@ a:hover{
   to {opacity:1}
 }
 
-/* ul span li:nth-child(odd) {
-  background: #f9f9f9;
-} */
-
 ul li:hover {
   background: #ddd;
-}
-
-ul li.checked {
-  background: #888;
-  color: #fff;
-  text-decoration: line-through;
-}
-
-/* Add a "checked" mark when clicked on */
-ul li.checked::before {
-  content: '';
-  position: absolute;
-  border-color: #fff;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 10px;
-  left: 16px;
-  transform: rotate(45deg);
-  height: 15px;
-  width: 7px;
 }
 
 #searchList button {
@@ -214,7 +192,7 @@ ul li.checked::before {
   display: none;
   position: fixed;
   z-index: 1;
-  padding-top: 200px;
+  padding-top: 100px;;
   left: 0;
   top: 0;
   width: 100%;
@@ -287,11 +265,17 @@ ul li.checked::before {
   padding-left: 15px;
 }
 
+.movie-description-content-column-60 p {
+  font-size: 20px;
+  font-weight: 500;
+  padding-top: 10px;
+}
+
 .movie-description-banner {
   display: none;
   position: fixed;
   z-index: 1;
-  padding-top: 100px;
+  padding-top: 150px;
   left: 0;
   top: 0;
   width: 100%;
@@ -310,9 +294,9 @@ ul li.checked::before {
   width: 40%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animateOpacity;
-  -webkit-animation-duration: 0.4s;
+  -webkit-animation-duration: 1s;
   animation-name: animateOpacity;
-  animation-duration: 0.4s
+  animation-duration: 1s;
 }
 
 .movie-close {
@@ -336,4 +320,14 @@ ul li.checked::before {
 
 .movie-description-body {
   padding: 2px 16px;
+}
+
+.banner-body-row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.banner-body-column-20 {
+  flex: 20%;
+  padding: 5px;
 }
